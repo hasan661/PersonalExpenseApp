@@ -36,6 +36,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _usertransaction = [];
 
+  var boolean=false;
+
   List<Transaction> get _recenttransactions {
     return _usertransaction.where((tx) {
       return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
@@ -72,6 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaquery=MediaQuery.of(context);
+    final isLandscape= mediaquery.orientation==Orientation.landscape;
     final appbar = AppBar(
       title: Text('Flutter App'),
       actions: [
@@ -81,24 +85,49 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ],
     );
+    final transactionList=Container( 
+                 height: (mediaquery.size.height -
+                        appbar.preferredSize.height-mediaquery.padding.top) *
+                    0.7,
+                child: TransactionList(_usertransaction, deleteTransaction),
+              );
     return Scaffold(
       appBar: appbar,
       body:  SingleChildScrollView(
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              if (isLandscape)
+              Row(
+                children: [
+                  Text("Show Chart"),
+                  Switch(value: boolean, onChanged: (val){
+                    setState(() {
+                      boolean=val;
+                    });
+                  })
+                ],
+              ),
+              if (!isLandscape)
               Container(
-                height: (MediaQuery.of(context).size.height -
-                        appbar.preferredSize.height-MediaQuery.of(context).padding.top) *
+                height: (mediaquery.size.height -
+                        appbar.preferredSize.height-mediaquery.padding.top) *
                     0.3,
                 child: Chart(_recenttransactions),
-              ),
-              Container(
-                 height: (MediaQuery.of(context).size.height -
-                        appbar.preferredSize.height-MediaQuery.of(context).padding.top) *
+                
+              ),if(!isLandscape)
+              transactionList,
+
+              if(isLandscape)
+              boolean ? Container(
+                height: (mediaquery.size.height -
+                        appbar.preferredSize.height-mediaquery.padding.top) *
                     0.7,
-                child: TransactionList(_usertransaction, deleteTransaction),
-              ),
+                child: Chart(_recenttransactions),
+                
+              )
+              :transactionList
+              
             ],
           ),
       ),
