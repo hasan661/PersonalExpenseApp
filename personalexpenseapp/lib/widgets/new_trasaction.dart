@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'dart:io';
+
+import 'package:personalexpenseapp/widgets/adaptive.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
@@ -58,7 +62,11 @@ class _NewTransactionState extends State<NewTransaction> {
       child: Card(
         elevation: 5,
         child: Container(
-          padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: MediaQuery.of(context).viewInsets.bottom+10),
+          padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10),
           child: Column(
             children: [
               TextField(
@@ -79,14 +87,8 @@ class _NewTransactionState extends State<NewTransaction> {
                     Text(_selecteddate == null
                         ? 'No Date Choosen'
                         : DateFormat.yMd().format(_selecteddate)),
-                    TextButton(
-                        onPressed: () {
-                          _presentDatePicker();
-                        },
-                        child: Text(
-                          "Choose Date",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ))
+                        Adaptive("Choose Date",_presentDatePicker)
+                    
                   ],
                 ),
               ),
@@ -95,8 +97,9 @@ class _NewTransactionState extends State<NewTransaction> {
                 child: Text(
                   "Add Transaction",
                   style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.bold),
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               )
             ],
