@@ -8,10 +8,15 @@ import 'package:personalexpenseapp/widgets/adaptive.dart';
 class NewTransaction extends StatefulWidget {
   final Function addTx;
 
-  NewTransaction(this.addTx);
+  NewTransaction(this.addTx) {
+    print("New Transaction Constructor");
+  }
 
   @override
-  _NewTransactionState createState() => _NewTransactionState();
+  _NewTransactionState createState() {
+    print("Create State Constructor");
+    return _NewTransactionState();
+  }
 }
 
 class _NewTransactionState extends State<NewTransaction> {
@@ -20,6 +25,28 @@ class _NewTransactionState extends State<NewTransaction> {
   final amount = TextEditingController();
 
   var _selecteddate;
+
+  NewTransaction() {
+    print("New Transaction Constructor");
+  }
+
+  @override
+  void initState() {
+    print("Init State");
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant oldWidget) {
+    print("DidUpdate");
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    print("Dispose");
+    super.dispose();
+  }
 
   void submit() {
     if (amount.text.isEmpty) {
@@ -87,8 +114,7 @@ class _NewTransactionState extends State<NewTransaction> {
                     Text(_selecteddate == null
                         ? 'No Date Choosen'
                         : DateFormat.yMd().format(_selecteddate)),
-                        Adaptive("Choose Date",_presentDatePicker)
-                    
+                    Adaptive("Choose Date", _presentDatePicker)
                   ],
                 ),
               ),
